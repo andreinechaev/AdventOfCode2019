@@ -15,14 +15,14 @@ part2() ->
 filter(List, Num) -> step(List, 0, 0, Num).
 
 step(_, Noun, _, _) when Noun > 99 -> -1;
-step(List, Noun, Verb, Num) when Noun =< 99 ->
-    Res = traverse(List),
+step(List, Noun, _, Num) when Noun =< 99 ->
+    In = internal(List, Noun, 0, Num),
+    F = replace(List, 2, Noun),
+    S = replace(F, 3, In),
+    Res = traverse(S),
     case Res == Num of
-      % Early return appears to be more complex than expected. TODO: think a better way
-      true -> io:format("Result = ~p\n", [100 * Noun + Verb]);
-      false ->
-	  In = internal(List, Noun, 0, Num),
-	  step(List, Noun + 1, In, Num)
+      true -> 100 * Noun + In;
+      false -> step(List, Noun + 1, In, Num)
     end.
 
 internal(_, _, Verb, _) when Verb > 99 -> Verb - 1;
@@ -31,7 +31,7 @@ internal(List, Noun, Verb, Num) when Verb =< 99 ->
     S = replace(F, 3, Verb),
     Res = traverse(S),
     case Res == Num of
-      true -> step(S, Noun, Verb, Num);
+      true -> Verb;
       false -> internal(List, Noun, Verb + 1, Num)
     end.
 
