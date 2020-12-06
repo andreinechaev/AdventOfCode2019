@@ -38,9 +38,9 @@ def draw_plane(places, dim=(MAX_ROWS, MAX_COLS)):
     for p in places:
         plane[p[0]][p[1]] = 1
     
-    for i in range(MAX_ROWS):
+    for i in range(dim[0]):
         print(plane[i])
-        if sum(plane[i]) == MAX_COLS - 1:
+        if sum(plane[i]) == dim[1] - 1:
             id = get_id((i, np.argmin(plane[i])))
 
     return id
